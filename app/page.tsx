@@ -17,6 +17,10 @@ export default function Home() {
     setResult(null)
 
     try {
+      // NOTE: In production, implement client-side encryption here
+      // before sending to the API for true zero-knowledge E2EE
+      // Example: Use Web Crypto API or a library like TweetNaCl
+      
       const response = await fetch('/api/kyc/verify', {
         method: 'POST',
         headers: {

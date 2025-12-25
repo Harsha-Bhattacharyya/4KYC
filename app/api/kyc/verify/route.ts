@@ -20,6 +20,11 @@ export async function POST(request: NextRequest) {
       status: result.success ? 200 : 400 
     })
   } catch (error) {
+    // Log error securely without exposing sensitive details
+    if (process.env.NODE_ENV === 'development') {
+      console.error('KYC verification error:', error)
+    }
+    
     return NextResponse.json(
       { success: false, message: 'Internal server error' },
       { status: 500 }

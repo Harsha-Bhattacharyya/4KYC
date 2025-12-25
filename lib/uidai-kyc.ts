@@ -67,10 +67,18 @@ export function validateAadhaarNumber(aadhaar: string): boolean {
 /**
  * Simulates zero-knowledge proof encryption
  * In production, this would use actual cryptographic libraries
+ * 
+ * SECURITY NOTE: This is a MOCK implementation for demonstration only.
+ * In production, implement proper E2EE using:
+ * - libsodium (NaCl) for encryption
+ * - Public key cryptography with UIDAI's public keys
+ * - Secure key exchange protocols
  */
 export function encryptWithZeroKnowledge(data: string): string {
-  // In production, use proper E2EE libraries like libsodium, tweetnacl, etc.
-  // This is a placeholder for the concept
+  // WARNING: This is NOT actual encryption - only base64 encoding for demo
+  // In production, replace with proper encryption like:
+  // - sodium.crypto_box_seal() for public key encryption
+  // - AES-256-GCM for symmetric encryption with proper key management
   return Buffer.from(data).toString('base64')
 }
 
@@ -131,19 +139,21 @@ export async function verifyAgeWithUIDAI(aadhaar: string): Promise<AgeVerificati
     //   })
     // })
     
-    // MOCK IMPLEMENTATION FOR DEMO PURPOSES
+    // MOCK IMPLEMENTATION FOR DEMO PURPOSES ONLY
+    // WARNING: This is not a real verification - for development/testing only
     // In production, replace this with actual UIDAI API integration
     
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 1000))
     
-    // Mock response based on Aadhaar number pattern
+    // Mock response - uses a simple hash to determine result
+    // This prevents predictable patterns while keeping it deterministic for testing
     // In production, this would come from UIDAI's actual response
     // UIDAI returns DOB, we only check age and discard all PII
     
-    // For demo: if last digit is even, consider as adult
-    const lastDigit = parseInt(aadhaar.slice(-1))
-    const mockIsAdult = lastDigit % 2 === 0
+    // Use a simple hash of the Aadhaar number for unpredictable mock result
+    const hash = aadhaar.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
+    const mockIsAdult = hash % 3 !== 0  // ~66% will be adults in mock
     
     // In production, you would:
     // 1. Receive encrypted DOB from UIDAI
